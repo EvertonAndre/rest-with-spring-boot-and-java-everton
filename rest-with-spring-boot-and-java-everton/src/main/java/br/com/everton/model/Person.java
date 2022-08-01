@@ -1,16 +1,28 @@
 package br.com.everton.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity //Diz para o hibernate que essa classe representa uma tabela do banco
+@Table(name = "person") //Diz para o banco qual é o nome da tabela no banco
 public class Person implements Serializable {
 
     private static final long serialVersionUID= 1L;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+                                    // nullable = false significa que o nome nao pode ser nulo
+    @Column(name = "first_name", nullable = false , length = 80) // indica o nome da tabela no banco
     private String firstName;
+
+    @Column(name = "last_name", nullable = false , length = 80)
     private String lastName;
+
+    @Column(nullable = false , length = 100) // o nome da coluna no banco vai ser igual ao do objeto java (address), logo nao preciso especificar
     private String address;
+
+    @Column(nullable = false , length = 6)
     private String gender;
 
     public Person() {

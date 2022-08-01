@@ -4,6 +4,7 @@ import br.com.everton.model.Person;
 import br.com.everton.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,20 +19,18 @@ public class PersonController {
     private final AtomicLong counter = new AtomicLong(); // VAI GERAR UM ID.
 
 
-    //Recupera dados da URL
-    @RequestMapping(value = "/{id}", method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person findById(@PathVariable(value = "id") String id) { //PathVariable passa o valor diretamente na URL
+    @GetMapping(value = "/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+        public Person findById(@PathVariable(value = "id") Long id) { //PathVariable passa o valor diretamente na URL
          return service.findById(id);
-
      }
 
-    @RequestMapping(method= RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Person> findById() { //PathVariable passa o valor diretamente na URL
         return service.findAll();
-
     }
 
-    @RequestMapping(method= RequestMethod.POST,
+    @PostMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Person create(@RequestBody  Person person) { //RequestBody passa o valor diretamente no corpo da aplicacao
@@ -39,7 +38,7 @@ public class PersonController {
 
     }
 
-    @RequestMapping(method= RequestMethod.PUT,
+    @PutMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Person update(@RequestBody  Person person) { //RequestBody passa o valor diretamente no corpo da aplicacao
@@ -47,9 +46,9 @@ public class PersonController {
 
     }
 
-    @RequestMapping(value= "/{id}",
-           method = RequestMethod.DELETE)
-    public void delete(@RequestBody  String id) { //RequestBody passa o valor diretamente no corpo da aplicacao
+    @DeleteMapping(value= "/{id}")
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long id) { //RequestBody passa o valor diretamente no corpo da aplicacao
         service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -1,6 +1,6 @@
 package br.com.everton.Controllers;
 
-import br.com.everton.model.Person;
+import br.com.everton.data.vo.v1.PersonVO;
 import br.com.everton.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,29 +19,24 @@ public class PersonController {
     private final AtomicLong counter = new AtomicLong(); // VAI GERAR UM ID.
 
 
-    @GetMapping(value = "/{id}",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-        public Person findById(@PathVariable(value = "id") Long id) { //PathVariable passa o valor diretamente na URL
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+        public PersonVO findById(@PathVariable(value = "id") Long id) { //PathVariable passa o valor diretamente na URL
          return service.findById(id);
      }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Person> findById() { //PathVariable passa o valor diretamente na URL
+    public List<PersonVO> findAll() { //PathVariable passa o valor diretamente na URL
         return service.findAll();
     }
 
-    @PostMapping(
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person create(@RequestBody  Person person) { //RequestBody passa o valor diretamente no corpo da aplicacao
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public PersonVO create(@RequestBody  PersonVO person) { //RequestBody passa o valor diretamente no corpo da aplicacao
         return service.create(person);
 
     }
 
-    @PutMapping(
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person update(@RequestBody  Person person) { //RequestBody passa o valor diretamente no corpo da aplicacao
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public PersonVO update(@RequestBody  PersonVO person) { //RequestBody passa o valor diretamente no corpo da aplicacao
         return service.update(person);
 
     }
